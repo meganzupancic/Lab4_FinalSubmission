@@ -1,5 +1,15 @@
 `timescale 1ns / 1ps
 
+//////LAB 4 - ECE 369/////////////
+////
+////
+//// Megan Zupancic and Annie Thiel
+/// Percent Effort: %50 - %50
+////
+////
+//////////////////////////////////
+
+
 module Top_Level_tb();
 
     // Define testbench signals
