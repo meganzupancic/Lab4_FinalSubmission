@@ -6,6 +6,7 @@
 //
 //
 // Student(s) Name and Last Name: Megan Zupancic and Annie Thiel
+// Percent Effort: 50/50
 //
 //
 // Module - register_file.v
