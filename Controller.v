@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module Controller(Instruction, RegDst, ALUOp, ALUSrc, Branch, MemRead, MemWrite, MemtoReg, RegWrite, JR, JAL, size, RegWrite_JAL, special_rt);
+module Controller(Instruction, RegDst, ALUOp, ALUSrc, Branch, MemRead, MemWrite, MemtoReg, RegWrite, JR, JAL, size, RegWrite_JAL, special_rt, j_and_jal);
     //input wire Clk;
     //input wire Rst;
     
@@ -38,6 +38,7 @@ module Controller(Instruction, RegDst, ALUOp, ALUSrc, Branch, MemRead, MemWrite,
     output reg RegWrite;
     output reg JR;
     output reg JAL;
+    output reg j_and_jal;
     output reg [1:0] size;
     output reg RegWrite_JAL;
     output reg special_rt;
@@ -72,6 +73,7 @@ module Controller(Instruction, RegDst, ALUOp, ALUSrc, Branch, MemRead, MemWrite,
             size <= 0;
             RegWrite_JAL <= 0;
             special_rt <= 0;
+            j_and_jal <= 0;
             
     
 
@@ -90,6 +92,7 @@ module Controller(Instruction, RegDst, ALUOp, ALUSrc, Branch, MemRead, MemWrite,
                     RegWrite <= 1;
                     JR <= 0;
                     JAL <= 0;
+                    j_and_jal <= 0;
                     //PCSrc <= 0;       //doesn't matter
                     if (Instruction[5:0] == 6'b001000) begin
                         JR <= 1;
@@ -108,6 +111,7 @@ module Controller(Instruction, RegDst, ALUOp, ALUSrc, Branch, MemRead, MemWrite,
                     RegWrite <= 1;
                     JR <= 0;
                     JAL <= 0;
+                    j_and_jal <= 0;
                     //PCSrc <= 0;       //doesn't matter
                 end
                 
@@ -123,6 +127,7 @@ module Controller(Instruction, RegDst, ALUOp, ALUSrc, Branch, MemRead, MemWrite,
                     RegWrite <= 1;
                     JR <= 0;  
                     JAL <= 0;
+                    j_and_jal <= 0;
                     //PCSrc <= 0;       //doesn't matter
                 end
                 6'b001100: begin // ANDI
@@ -137,6 +142,7 @@ module Controller(Instruction, RegDst, ALUOp, ALUSrc, Branch, MemRead, MemWrite,
                     RegWrite <= 1;
                     JR <= 0;  
                     JAL <= 0;
+                    j_and_jal <= 0;
                     //PCSrc <= 0;       //doesn't matter
                 end
                 6'b001101: begin // ORI
@@ -151,6 +157,7 @@ module Controller(Instruction, RegDst, ALUOp, ALUSrc, Branch, MemRead, MemWrite,
                     RegWrite <= 1;
                     JR <= 0;  
                     JAL <= 0;
+                    j_and_jal <= 0;
                     //PCSrc <= 0;       //doesn't matter
                 end
                 6'b001110: begin // XORI
@@ -165,6 +172,7 @@ module Controller(Instruction, RegDst, ALUOp, ALUSrc, Branch, MemRead, MemWrite,
                     RegWrite <= 1;
                     JR <= 0;  
                     JAL <= 0;
+                    j_and_jal <= 0;
                     //PCSrc <= 0;       //doesn't matter
                 end
                 6'b001010: begin // SLTI
@@ -179,6 +187,7 @@ module Controller(Instruction, RegDst, ALUOp, ALUSrc, Branch, MemRead, MemWrite,
                     RegWrite <= 1;
                     JR <= 0;  
                     JAL <= 0;
+                    j_and_jal <= 0;
                     //PCSrc <= 0;       //doesn't matter
                 end
                 6'b100011: begin // Load
@@ -193,6 +202,7 @@ module Controller(Instruction, RegDst, ALUOp, ALUSrc, Branch, MemRead, MemWrite,
                     RegWrite <= 1;
                     JR <= 0;  
                     JAL <= 0;
+                    j_and_jal <= 0;
                     size <= 2'b00;
                     //PCSrc <= 0;       //doesn't matter
                     //Select_size <= 0, 1, 2
@@ -212,6 +222,7 @@ module Controller(Instruction, RegDst, ALUOp, ALUSrc, Branch, MemRead, MemWrite,
                     RegWrite <= 0;
                     JR <= 0;  
                     JAL <= 0;
+                    j_and_jal <= 0;
                     size <= 2'b00;
                     //PCSrc <= 0;       //doesn't matter
                 end
@@ -227,6 +238,7 @@ module Controller(Instruction, RegDst, ALUOp, ALUSrc, Branch, MemRead, MemWrite,
                     RegWrite <= 0;
                     JR <= 0;  
                     JAL <= 0;
+                    j_and_jal <= 0;
                     size <= 2'b01;
                     //PCSrc <= 0;       //doesn't matter
                 end
@@ -242,6 +254,7 @@ module Controller(Instruction, RegDst, ALUOp, ALUSrc, Branch, MemRead, MemWrite,
                     RegWrite <= 1;
                     JR <= 0;  
                     JAL <= 0;
+                    j_and_jal <= 0;
                     size <= 2'b01;
                     //PCSrc <= 0;       //doesn't matter
                 end
@@ -257,6 +270,7 @@ module Controller(Instruction, RegDst, ALUOp, ALUSrc, Branch, MemRead, MemWrite,
                     RegWrite <= 0;
                     JR <= 0;  
                     JAL <= 0;
+                    j_and_jal <= 0;
                     size <= 2'b10;
                     //PCSrc <= 0;       //doesn't matter
                 end
@@ -272,6 +286,7 @@ module Controller(Instruction, RegDst, ALUOp, ALUSrc, Branch, MemRead, MemWrite,
                     RegWrite <= 1;
                     JR <= 0;  
                     JAL <= 0;
+                    j_and_jal <= 0;
                     size <= 2'b10;
                     //PCSrc <= 0;       //doesn't matter
                 end
@@ -287,6 +302,7 @@ module Controller(Instruction, RegDst, ALUOp, ALUSrc, Branch, MemRead, MemWrite,
                     RegWrite <= 0;    //has to be zero so we don't overwrite
                     JR <= 0;  
                     JAL <= 0;
+                    j_and_jal <= 0;
                     special_rt <= 1;
                     //PCSrc <= Branch & Zero;       
                 end
@@ -302,6 +318,7 @@ module Controller(Instruction, RegDst, ALUOp, ALUSrc, Branch, MemRead, MemWrite,
                     RegWrite <= 0;    //has to be zero so we don't overwrite
                     JR <= 0;  
                     JAL <= 0;
+                    j_and_jal <= 0;
                     //PCSrc <= Branch & Zero;       
                 end
                 6'b000101: begin // BNE
@@ -316,6 +333,7 @@ module Controller(Instruction, RegDst, ALUOp, ALUSrc, Branch, MemRead, MemWrite,
                     RegWrite <= 0;    //has to be zero so we don't overwrite
                     JR <= 0;  
                     JAL <= 0;
+                    j_and_jal <= 0;
                     //PCSrc <= Branch & Zero;       
                 end
                 6'b000111: begin // BGTZ
@@ -330,6 +348,7 @@ module Controller(Instruction, RegDst, ALUOp, ALUSrc, Branch, MemRead, MemWrite,
                     RegWrite <= 0;    //has to be zero so we don't overwrite
                     JR <= 0;  
                     JAL <= 0;
+                    j_and_jal <= 0;
                     //PCSrc <= Branch & Zero;       
                 end
                 6'b000110: begin // BLEZ
@@ -344,6 +363,7 @@ module Controller(Instruction, RegDst, ALUOp, ALUSrc, Branch, MemRead, MemWrite,
                     RegWrite <= 0;    //has to be zero so we don't overwrite
                     JR <= 0;  
                     JAL <= 0;
+                    j_and_jal <= 0;
                     //PCSrc <= Branch & Zero;       
                 end
                 
@@ -352,14 +372,15 @@ module Controller(Instruction, RegDst, ALUOp, ALUSrc, Branch, MemRead, MemWrite,
                     RegDst <= 0;
                     ALUOp <= 6'b000010;
                     //ALUZero <= 1;     
-                    ALUSrc <= 0;           
-                    Branch <= 1;     
+                    ALUSrc <= 1;           
+                    Branch <= 0;     
                     MemRead <= 0;     
                     MemWrite <= 0;    
-                    MemtoReg <= 0;    
+                    MemtoReg <= 1;    
                     RegWrite <= 0;   
                     JR <= 0;  
                     JAL <= 0; 
+                    j_and_jal <= 1;
                     //PCSrc <= Branch & Zero;
                 end
                 6'b000011: begin // jal  FIXME!
@@ -367,13 +388,14 @@ module Controller(Instruction, RegDst, ALUOp, ALUSrc, Branch, MemRead, MemWrite,
                     ALUOp <= 6'b000011;
                     //ALUZero <= 1;     
                     ALUSrc <= 1;            
-                    Branch <= 1;     
+                    Branch <= 0;     
                     MemRead <= 0;     
                     MemWrite <= 0;    
-                    MemtoReg <= 0;   
+                    MemtoReg <= 1;   
                     RegWrite <= 1;  
                     JR <= 0;  
                     JAL <= 1; 
+                    j_and_jal <= 1;
                     RegWrite_JAL <= 1; 
                     //PCSrc <= Branch & Zero;
                 end
@@ -388,6 +410,7 @@ module Controller(Instruction, RegDst, ALUOp, ALUSrc, Branch, MemRead, MemWrite,
                     RegWrite <= 0;  
                     JR <= 0;  
                     JAL <= 0;
+                    j_and_jal <= 0;
                     RegWrite_JAL <= 0;
                 end
                 
@@ -403,6 +426,7 @@ module Controller(Instruction, RegDst, ALUOp, ALUSrc, Branch, MemRead, MemWrite,
                     RegWrite <= 0;  
                     JR <= 0;  
                     JAL <= 0;
+                    j_and_jal <= 0;
                     size <= 0;
                     RegWrite_JAL <= 0;
                     special_rt <= 0;
