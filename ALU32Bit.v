@@ -111,11 +111,11 @@ module ALU32Bit(ALUControl, A, B, ALUResult, Zero);
     				Zero <= ($signed(A) <= 0) ? 1'b1 : 1'b0;
 			
 		  	6'b000010: begin // J
-			  	ALUResult <= 32'b0;
+			  	ALUResult <= B * 4;
 			  	Zero <= 1'b1;
 			end
 		  	6'b000011: begin // JAL
-			  	ALUResult <= 32'b0;
+			  	ALUResult <= B * 4;
 			  	Zero <= 1'b1;
 			end
 			default: begin
